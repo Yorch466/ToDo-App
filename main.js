@@ -1,5 +1,7 @@
 import './style.css'
-import viteLogo from '/vite.svg'
+import { App } from './src/todos/app';
+import todoStore from './src/store/todo.store';
 
-console.log('holi');
+todoStore.initStore()
 
+App('#app')
