@@ -22,7 +22,7 @@ button {
 body {
 	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	line-height: 1.4em;
-	background: #f5f5f5;
+	background: rgb(77, 2, 2);
 	color: #111111;
 	min-width: 230px;
 	max-width: 550px;
@@ -73,7 +73,7 @@ body {
 	font-size: 80px;
 	font-weight: 200;
 	text-align: center;
-	color: #b83f45;
+	color: #FFF;
 	-webkit-text-rendering: optimizeLegibility;
 	-moz-text-rendering: optimizeLegibility;
 	text-rendering: optimizeLegibility;
@@ -334,7 +334,7 @@ html .clear-completed:active {
 
 .info {
 	margin: 65px auto 0;
-	color: #4d4d4d;
+	color: #FFF;
 	font-size: 11px;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	text-align: center;

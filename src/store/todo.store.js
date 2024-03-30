@@ -1,6 +1,6 @@
 import { Todo } from "../todos/models/todo.model";
 
-const Filters = {
+export const Filters = {
   All: "All",
   Completed: "Completed",
   Pending: "Pending",
@@ -18,24 +18,32 @@ const state = {
 };
 
 const initStore = () => {
-  console.log(state);
-  console.log("init store ñ");
+  loadStore();
+  console.log(getcurrentFilter())
 };
 
 const loadStore = () => {
-  throw new Error("Not implemented");
+  if( !localStorage.getItem('state') ) return;
+
+  const { todos = [], filter = Filters.All } = JSON.parse(localStorage.getItem('state'));
+  state.todos = todos;
+  state.filter = filter;
 };
 
-const geTodos = (filter = Filters.All) => {
+const saveStateToLocalStorage = () => {
+  localStorage.setItem('state', JSON.stringify(state));
+}
+
+const getTodos = (filter = Filters.All) => {
   switch (filter) {
     case Filters.All:
       return [...state.todos];
 
     case Filters.Completed:
-      return state.filter((todo) => todo.done);
+      return state.todos.filter(todo => todo.done);
 
     case Filters.Pending:
-      return state.filter((todo) => !todo.done);
+      return state.todos.filter(todo => !todo.done);
 
     default:
       throw new Error(`Option ${filter} is not valid.`);
@@ -49,6 +57,8 @@ const geTodos = (filter = Filters.All) => {
 const addTodo = (description) => {
   if (!description) throw new Error("Description is required");
   state.todos.push(new Todo(description));
+
+  saveStateToLocalStorage();
 };
 
 const toggleTodo = (todoId) => {
@@ -58,14 +68,20 @@ const toggleTodo = (todoId) => {
     }
     return todo;
   });
+  
+  saveStateToLocalStorage();
 };
 
 const deleteTodo = (todoId) => {
   state.todos = state.todos.filter((todo) => todo.id !== todoId);
+  saveStateToLocalStorage();
+
 };
 
 const deleteCompleted = () => {
-  state.todos = state.todos.filter((todo) => todo.done);
+  state.todos = state.todos.filter((todo) => !todo.done);
+  saveStateToLocalStorage();
+
 };
 
 /**
@@ -74,8 +90,10 @@ const deleteCompleted = () => {
  */
 
 const setFilter = (newFilter = Filters.All) => {
-  //Object.keys(Filters).includes('All','Completed', 'Pending');
+  // Object.keys(Filters).includes('All','Completed', 'Pending');
   state.filter = newFilter;
+  saveStateToLocalStorage();
+
 };
 
 const getcurrentFilter = () => {
@@ -87,7 +105,7 @@ export default {
   deleteCompleted,
   deleteTodo,
   getcurrentFilter,
-  geTodos,
+  getTodos,
   initStore,
   loadStore,
   setFilter,
